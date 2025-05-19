@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# parsing.sh - Script para baixar uma página HTML e fazer parsing de elementos específicos
+
+URL="$1"
+
+if [ -z "$URL" ]; then
+    echo "Uso: ./parsing.sh https://exemplo.com"
+    exit 1
+fi
+
+# Baixa o HTML e salva em um arquivo temporário
+curl -s "$URL" -o temp.html
+
+# Mostra todos os títulos H1
+echo "Títulos <h1> encontrados:"
+xmllint --html --xpath "//h1/text()" temp.html 2>/dev/null
+
+# Mostra todos os links
+echo -e "\n\nLinks encontrados:"
+xmllint --html --xpath "//a/@href" temp.html 2>/dev/null
+
+# Limpa o arquivo temporário
+rm temp.html
